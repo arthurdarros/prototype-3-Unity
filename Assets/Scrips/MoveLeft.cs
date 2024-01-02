@@ -7,7 +7,15 @@ public class MoveLeft : MonoBehaviour
     [Header("Movement Parameters")]
     [SerializeField] private float speed = 30;
 
-    // Update is called once per frame
+    private PlayerController playerControllerScript;
+
+    private float leftBound = -15;
+
+    void Start()
+    {
+        playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
+    }
+
     void Update()
     {
         Move();
@@ -15,6 +23,14 @@ public class MoveLeft : MonoBehaviour
 
     void Move()
     {
-        transform.Translate(Vector3.left * Time.deltaTime * speed);
+        if (playerControllerScript.GameOver == false)
+        {
+            transform.Translate(Vector3.left * Time.deltaTime * speed);
+        }
+
+        if (transform.position.x <leftBound && gameObject.CompareTag("Obstacle"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
